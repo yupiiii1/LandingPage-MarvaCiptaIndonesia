@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  --background: #ffffff;
+  --foreground: #252525;
+  --primary: #333333;
+  --primary-foreground: #fcfcfc;
+  --secondary: #f7f7f7;
+  --muted: #f7f7f7;
+  --accent: #f7f7f7;
+  --destructive: #e53e3e;
+  --border: #ebebeb;
+  --input: #ebebeb;
+  --ring: #b4b4b4;
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #252525;
+  --color-primary: #333333;
+  --color-primary-foreground: #fcfcfc;
+  --color-secondary: #f7f7f7;
+  --color-muted: #f7f7f7;
+  --color-accent: #f7f7f7;
+  --color-destructive: #e53e3e;
+  --color-border: #ebebeb;
+  --color-input: #ebebeb;
+  --color-ring: #b4b4b4;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer utilities {
+  @keyframes marquee {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+  }
+
+  .animate-marquee {
+    animation: marquee var(--duration, 30s) linear infinite;
+    will-change: transform;
+  }
+
+  .animate-marquee-reverse {
+    animation-direction: reverse;
+  }
+}
