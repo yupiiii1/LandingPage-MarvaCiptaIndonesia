@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   description:
     "A complete web-based solution for weighing, recording, and monitoring material data in real-time. Trusted by leading companies across Indonesia.",
   keywords: "weighing system, material management, industrial solution, Indonesia",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "Marva Weighing System",
     description: "Professional weighing and material management system for modern industries",

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -36,8 +37,16 @@ export default function Navbar() {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link href="#" className="text-2xl font-bold text-[#ee3733]">
-                Marva
+              <Link href="#">
+                <div className="relative w-30 h-30">
+                  <Image
+                    src="/logo_marva.jpg"
+                    alt="Marva Logo"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
               </Link>
             </div>
 
