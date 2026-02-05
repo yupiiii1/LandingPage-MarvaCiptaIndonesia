@@ -9,7 +9,7 @@ export default function Clients() {
     () => [
       { name: "IRC", src: "/clients/irc.webp" },
       { name: "GarudaFood", src: "/clients/garudafood.webp" },
-      { name: "IKP", src: "/clients/ikp.webp" },
+      { name: "IKP", src: "/clients/ikpp.webp" },
       { name: "LasalleFood", src: "/clients/lasallefood.webp" },
       { name: "LIPI", src: "/clients/lipi.webp" },
       
