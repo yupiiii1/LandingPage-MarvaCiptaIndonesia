@@ -40,7 +40,7 @@ export default function Navbar() {
               <Link href="#">
                 <div className="relative w-30 h-30">
                   <Image
-                    src="/logo_marva.jpg"
+                    src="/logo_marva.webp"
                     alt="Marva Logo"
                     fill
                     className="object-contain"

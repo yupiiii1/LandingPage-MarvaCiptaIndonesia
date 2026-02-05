@@ -7,11 +7,11 @@ import { useMemo } from "react"
 export default function Clients() {
   const logos = useMemo(
     () => [
-      { name: "IRC", src: "/clients/irc.png" },
-      { name: "GarudaFood", src: "/clients/garudafood.png" },
-      { name: "IKP", src: "/clients/ikp.png" },
-      { name: "LasalleFood", src: "/clients/lasallefood.png" },
-      { name: "LIPI", src: "/clients/lipi.png" },
+      { name: "IRC", src: "/clients/irc.webp" },
+      { name: "GarudaFood", src: "/clients/garudafood.webp" },
+      { name: "IKP", src: "/clients/ikp.webp" },
+      { name: "LasalleFood", src: "/clients/lasallefood.webp" },
+      { name: "LIPI", src: "/clients/lipi.webp" },
       
     ],
     []
