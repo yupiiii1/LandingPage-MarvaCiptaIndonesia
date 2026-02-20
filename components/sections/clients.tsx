@@ -12,7 +12,6 @@ export default function Clients() {
       { name: "IKP", src: "/clients/ikp.webp" },
       { name: "LasalleFood", src: "/clients/lasallefood.webp" },
       { name: "LIPI", src: "/clients/lipi.webp" },
-      
     ],
     []
   )
