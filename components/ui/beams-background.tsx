@@ -7,48 +7,36 @@ import { cn } from "@/lib/utils"
 interface Props {
   className?: string
   children?: React.ReactNode
-  intensity?: "subtle" | "medium" | "strong"
 }
 
-interface Beam {
+interface Blob {
   x: number
   y: number
-  width: number
-  length: number
-  angle: number
-  speed: number
+  radius: number
+  speedX: number
+  speedY: number
   opacity: number
-  hue: number
 }
 
-function createBeam(width: number, height: number): Beam {
+function createBlob(width: number, height: number): Blob {
   return {
     x: Math.random() * width,
     y: Math.random() * height,
-    width: 40 + Math.random() * 40,
-    length: height * 2,
-    angle: -30 + Math.random() * 6,
-    speed: 0.4 + Math.random() * 0.5,
-    opacity: 0.12 + Math.random() * 0.1,
-    hue: 0 + Math.random() * 4,
+    radius: 120 + Math.random() * 180,
+    speedX: (Math.random() - 0.5) * 0.3,
+    speedY: (Math.random() - 0.5) * 0.3,
+    opacity: 0.15 + Math.random() * 0.15,
   }
 }
 
 export default function BeamsBackground({
   className,
   children,
-  intensity = "strong",
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const beamsRef = useRef<Beam[]>([])
+  const blobsRef = useRef<Blob[]>([])
   const frameRef = useRef<number>(0)
-
-  const opacityMap = {
-    subtle: 0.6,
-    medium: 0.8,
-    strong: 1,
-  } as const
 
   useEffect(() => {
     const root = rootRef.current
@@ -60,7 +48,6 @@ export default function BeamsBackground({
 
     const resize = () => {
       const rect = root.getBoundingClientRect()
-
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
 
       canvas.width = rect.width * dpr
@@ -71,8 +58,9 @@ export default function BeamsBackground({
       ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.scale(dpr, dpr)
 
-      beamsRef.current = Array.from({ length: 12 }, () =>
-        createBeam(rect.width, rect.height)
+      // 🔥 6 blob cukup, ringan tapi keliatan
+      blobsRef.current = Array.from({ length: 6 }, () =>
+        createBlob(rect.width, rect.height)
       )
     }
 
@@ -83,31 +71,32 @@ export default function BeamsBackground({
       const rect = root.getBoundingClientRect()
       ctx.clearRect(0, 0, rect.width, rect.height)
 
-      ctx.filter = "blur(18px)"
+      ctx.filter = "blur(40px)" // glow creamy
 
-      beamsRef.current.forEach((beam) => {
-        beam.y -= beam.speed
+      blobsRef.current.forEach((blob) => {
+        blob.x += blob.speedX
+        blob.y += blob.speedY
 
-        if (beam.y + beam.length < -50) {
-          beam.y = rect.height + 50
-        }
+        // bounce biar ga keluar layar
+        if (blob.x < 0 || blob.x > rect.width) blob.speedX *= -1
+        if (blob.y < 0 || blob.y > rect.height) blob.speedY *= -1
 
-        ctx.save()
-        ctx.translate(beam.x, beam.y)
-        ctx.rotate((beam.angle * Math.PI) / 180)
-
-        const gradient = ctx.createLinearGradient(0, 0, 0, beam.length)
-        gradient.addColorStop(0, `hsla(${beam.hue},85%,65%,0)`)
-        gradient.addColorStop(
-          0.5,
-          `hsla(${beam.hue},95%,55%,${beam.opacity * 1.3})`
+        const gradient = ctx.createRadialGradient(
+          blob.x,
+          blob.y,
+          0,
+          blob.x,
+          blob.y,
+          blob.radius
         )
-        gradient.addColorStop(1, `hsla(${beam.hue},85%,65%,0)`)
+
+        gradient.addColorStop(0, `rgba(220, 20, 30, ${blob.opacity})`)
+        gradient.addColorStop(1, "rgba(220, 20, 30, 0)")
 
         ctx.fillStyle = gradient
-        ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length)
-
-        ctx.restore()
+        ctx.beginPath()
+        ctx.arc(blob.x, blob.y, blob.radius, 0, Math.PI * 2)
+        ctx.fill()
       })
 
       frameRef.current = requestAnimationFrame(animate)
@@ -119,7 +108,7 @@ export default function BeamsBackground({
       cancelAnimationFrame(frameRef.current)
       window.removeEventListener("resize", resize)
     }
-  }, [intensity])
+  }, [])
 
   return (
     <div
@@ -129,14 +118,13 @@ export default function BeamsBackground({
       <canvas
         ref={canvasRef}
         className="absolute inset-0"
-        style={{ filter: "blur(8px)" }}
+        style={{ filter: "blur(20px)" }}
       />
 
       <motion.div
-        className="absolute inset-0 bg-red-100/30"
-        animate={{ opacity: [0.05, 0.15, 0.05] }}
-        transition={{ duration: 10, ease: "easeInOut", repeat: Infinity }}
-        style={{ backdropFilter: "blur(20px)" }}
+        className="absolute inset-0 bg-red-100/20"
+        animate={{ opacity: [0.05, 0.12, 0.05] }}
+        transition={{ duration: 12, repeat: Infinity }}
       />
 
       <div className="relative z-10">{children}</div>
