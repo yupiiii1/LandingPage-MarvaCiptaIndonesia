@@ -30,7 +30,7 @@ function createBeam(width: number, height: number): Beam {
     angle: -30 + Math.random() * 6,
     speed: 0.4 + Math.random() * 0.5,
     opacity: 0.12 + Math.random() * 0.1,
-    hue: 8 + Math.random() * 8,
+    hue: 0 + Math.random() * 4,
   }
 }
 
@@ -100,7 +100,7 @@ export default function BeamsBackground({
         gradient.addColorStop(0, `hsla(${beam.hue},85%,65%,0)`)
         gradient.addColorStop(
           0.5,
-          `hsla(${beam.hue},85%,65%,${beam.opacity * opacityMap[intensity]})`
+          `hsla(${beam.hue},95%,55%,${beam.opacity * 1.3})`
         )
         gradient.addColorStop(1, `hsla(${beam.hue},85%,65%,0)`)
 
@@ -133,7 +133,7 @@ export default function BeamsBackground({
       />
 
       <motion.div
-        className="absolute inset-0 bg-neutral-200/40"
+        className="absolute inset-0 bg-red-100/30"
         animate={{ opacity: [0.05, 0.15, 0.05] }}
         transition={{ duration: 10, ease: "easeInOut", repeat: Infinity }}
         style={{ backdropFilter: "blur(20px)" }}
